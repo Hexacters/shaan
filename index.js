@@ -1,45 +1,141 @@
-//Import the mongoose module
-var mongoose = require('mongoose');
+"use strict";
 
-//Set up default mongoose connection
-var mongoDB = 'mongodb://root:admin123@ds117545.mlab.com:17545/hexa';
-mongoose.connect(mongoDB, { useNewUrlParser: true });
-// Get Mongoose to use the global promise library
-mongoose.Promise = global.Promise;
-//Get the default connection
-var con = mongoose.connection;
+const express = require("express");
+const bodyParser = require("body-parser");
+const port = process.env.PORT || 8000;
+const restService = express();
 
-//Bind connection to error event (to get notification of connection errors)
-con.on('error', console.error.bind(console, 'MongoDB connection error:'));
+var translate = require('./translate/index');
 
-var userData = mongoose.Schema({
-    name : { type: String, required: true, trim: true },
-    amount : { type: String, trim: true }
+restService.use(
+  bodyParser.urlencoded({
+    extended: true
+  })
+);
+
+let defaultValues = ["doing", "hello", "hai", "hi", "date", "time", "status", "Hexa", "about you"];
+restService.use(bodyParser.json());
+
+restService.post("/echo", function(req, res) {
+  var speech = req.body.tr ? req.body.tr.toLowerCase() : "Seems like some problem. Speak again.";
+  // console.log(req.body.originalDetectIntentRequest.payload.data.user.name);
+  // var speech =
+  //     req.body.queryResult &&
+  //     req.body.queryResult.parameters &&
+  //     req.body.queryResult.parameters.echoText
+  //       ? req.body.queryResult.parameters.echoText
+  //       : "Seems like some problem. Speak again.";
+
+  var element = '';
+  let translateArray = ["translate", "say"];
+  let conjectionArray = ["in"];
+  if (translateArray.some(substring=>speech.includes(substring)) && conjectionArray.some(substring=>speech.includes(substring))) {
+
+    var lang = '';
+    conjectionArray.some(substring=> {
+      if(speech.includes(substring)){
+         var l = speech.lastIndexOf(substring);
+         lang = speech.substring(l).replace(substring, '').trim();
+         speech = speech.replace(speech.substring(l), '').trim();
+      }
+    });
+    translateArray.some(substring=>{
+      speech = speech.replace(substring, '');
+    });
+
+    speech = speech.replace(lang, '').trim();
+    console.log(lang, speech);
+    //Translate
+    translate(lang, speech).then(function(speech){
+      if (!speech) {
+        speech = "Sorry! i can't Understand!.. :("
+      }
+      return res.json({
+          fulfillmentText:speech,
+          fulfillmentMessages:[
+            {
+              text: {
+                  text: [
+                     speech
+                  ]
+              }
+            }
+          ],
+          source:"Copy Cat"
+      });
+    });
+    
+  } else {
+      defaultValues.map(s => {
+        if (speech.includes(s)) {
+          element = s;
+        }
+      });
+      console.log(element);
+      switch (element) {
+      //Speech Synthesis Markup Language 
+      case "date":
+        var datetime = new Date();
+        speech =
+          '<speak>Today is ' + datetime.toISOString().slice(0,10) + '</speak>';
+        break;
+      case "time":
+          var date = new Date();
+          var year = date.getUTCFullYear();
+          var month = date.getUTCMonth();
+          var day = date.getUTCDate();
+          var hours = date.getUTCHours();
+          var min = date.getUTCMinutes();
+          var sec = date.getUTCSeconds();
+          var ampm = hours >= 12 ? 'PM' : 'AM';
+          hours = ((hours + 11) % 12 + 1);
+          var time = new Date().getTime();
+        speech =
+          '<speak>It is ' + hours + ':' + min + ' ' + ampm + ' now</speak>';
+        break;
+
+      case "hai":
+      case "hello":
+      case "haii":
+        speech =
+          'Haii ' + req.body.originalDetectIntentRequest.payload.data.user.name + '...! :)';
+        break;
+
+      case "about you":
+      case "status":
+        if (req.body.originalDetectIntentRequest.source) {
+        speech = 
+          'Haii ' + req.body.originalDetectIntentRequest.payload.data.user.name + '..! :) \n' +
+          'Now i am in ' + req.body.originalDetectIntentRequest.source + '\n' +
+          'We are Talking in ' + 'Persnal Chat';
+        } else {
+          speech = 'I am online Now';
+        }
+        break;
+      case "doing":
+        speech = 
+          'I am doing Well what About You';
+        break;
+      }
+
+      return res.json({
+         fulfillmentText:speech,
+         fulfillmentMessages:[
+            {
+                text: {
+                    text: [
+                       speech
+                    ]
+                }
+            }
+        ],
+        source:"Hexa"
+      });
+  }
+
+  
 });
 
-var user = mongoose.model('user', userData, 'EnglishFine');
-con.once('open', function () {
-
-	/*var user1 = new user({
-		name: "Surya",
-		amount: "100"
-	});*/
-	/*user1.save(function (err, user) {
-      if (err) return console.error(err);
-      console.log(user.amount + 'rs is Added to ' + user.name + ' :)');
-
-		con.db.collection("EnglishFine", function(err, collection){
-			collection.find({name: 'surya'}).toArray(function(err, data){
-			    console.log(data); 
-			});
-		});
-
-    });*/
-
-    con.db.collection("EnglishFine", function(err, collection){
-			collection.find({name:"Surya"}).toArray(function(err, data){
-			    console.log(data); 
-			});
-		});
-
+restService.listen(port, function() {
+  console.log("Server up and listening");
 });
