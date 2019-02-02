@@ -12,7 +12,7 @@ function Fine (bot) {
 		if (bot.process == 'Add') {
 		  if (bot.amount) {
 		    if (bot.users.length) {
-		      for (key in bot.users) {
+		      for (var key in bot.users) {
 		        addOrUpdateUser(new users({
 		            name: bot.users[key],
 		            amount: bot.amount
