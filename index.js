@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 const port = process.env.PORT || 8000;
 const restService = express();
 
-var translate = require('./translate/index');
+var Fine = require('./fine');
 
 restService.use(
   bodyParser.urlencoded({
@@ -13,40 +13,22 @@ restService.use(
   })
 );
 
-let defaultValues = ["doing", "hello", "hai", "hi", "date", "time", "status", "Hexa", "about you"];
 restService.use(bodyParser.json());
 
 restService.post("/echo", function(req, res) {
-  var speech = req.body.tr ? req.body.tr.toLowerCase() : "Seems like some problem. Speak again.";
-  // console.log(req.body.originalDetectIntentRequest.payload.data.user.name);
-  // var speech =
-  //     req.body.queryResult &&
-  //     req.body.queryResult.parameters &&
-  //     req.body.queryResult.parameters.echoText
-  //       ? req.body.queryResult.parameters.echoText
-  //       : "Seems like some problem. Speak again.";
+  //var speech = req.body.tr ? req.body.tr.toLowerCase() : "Seems like some problem. Speak again.";
+  console.log(req.body.originalDetectIntentRequest.payload.data.user.name);
+  var bot =
+      req.body.queryResult &&
+      req.body.queryResult.parameters 
+        ? req.body.queryResult.parameters
+        : "Seems like some problem. Speak again.";
 
-  var element = '';
-  let translateArray = ["translate", "say"];
-  let conjectionArray = ["in"];
-  if (translateArray.some(substring=>speech.includes(substring)) && conjectionArray.some(substring=>speech.includes(substring))) {
+  if (bot.process) {
 
-    var lang = '';
-    conjectionArray.some(substring=> {
-      if(speech.includes(substring)){
-         var l = speech.lastIndexOf(substring);
-         lang = speech.substring(l).replace(substring, '').trim();
-         speech = speech.replace(speech.substring(l), '').trim();
-      }
-    });
-    translateArray.some(substring=>{
-      speech = speech.replace(substring, '');
-    });
 
-    speech = speech.replace(lang, '').trim();
-    console.log(lang, speech);
-    //Translate
-    translate(lang, speech).then(function(speech){
+
+    Fine(bot).then(function(speech){
       if (!speech) {
         speech = "Sorry! i can't Understand!.. :("
       }
@@ -61,7 +43,7 @@ restService.post("/echo", function(req, res) {
               }
             }
           ],
-          source:"Copy Cat"
+          source:"Shaan The bot"
       });
     });
     
@@ -71,7 +53,7 @@ restService.post("/echo", function(req, res) {
           element = s;
         }
       });
-      console.log(element);
+
       switch (element) {
       //Speech Synthesis Markup Language 
       case "date":
