@@ -14,7 +14,7 @@ restService.use(
 );
 
 restService.use(bodyParser.json());
-
+let defaultValues = ['hai', 'hi', 'time', 'date', 'hello', 'status']
 restService.post("/echo", function(req, res) {
   //var speech = req.body.tr ? req.body.tr.toLowerCase() : "Seems like some problem. Speak again.";
   //console.log(req.body.originalDetectIntentRequest.payload.data.user.name);
