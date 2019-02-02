@@ -13,7 +13,7 @@ function Fine (bot) {
 		  if (bot.amount) {
 		    if (bot.users.length) {
 		      for (var key in bot.users) {
-		        addOrUpdateUser(new users({
+		        return addOrUpdateUser(new users({
 		            name: bot.users[key],
 		            amount: bot.amount
 		        })).then(function (res) {
@@ -26,7 +26,7 @@ function Fine (bot) {
 		    }
 		  } else {
 		  	if (bot.users) {
-		  		updateUserEntity(bot.users).then(function (response) {
+		  		return updateUserEntity(bot.users).then(function (response) {
 					return bot.users + "added Successfully :)"
 				});
 		  	} else {
@@ -35,7 +35,7 @@ function Fine (bot) {
 		  	}
 		  }
 		} else if (bot.process == 'Get') {
-			getAllUsers("EnglishFine", bot.users).then(function(res) {
+			return getAllUsers("EnglishFine", bot.users).then(function(res) {
 				var data = res;
 				var total = 0;
 				for (var key in data) {
@@ -45,7 +45,7 @@ function Fine (bot) {
 			});
 				
 		} else if (bot.process == 'Remove') {
-			removeUser(bot.users).then(function (res) {
+			return removeUser(bot.users).then(function (res) {
 				if(res) {
 					return bot.users + "Deleted Success fully \n";
 				}
@@ -68,9 +68,9 @@ module.exports = Fine;
 // 		console.log("Deleted Success fully \n");
 // 	}
 // });
-// getAllUsers("EnglishFine").then(function(res){
-// 	console.log(res);
-// });	
+/* getAllUsers("EnglishFine").then(function(res){
+ 	console.log(res);
+ });*/	
 
 // updateUserEntity("Venkat").then(function (response) {
 // 	console.log(response);
