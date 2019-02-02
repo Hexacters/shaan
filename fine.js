@@ -1,35 +1,25 @@
-var mongoose = require('mongoose');
-var con = require('./connection');
+"use strict";
+
 var users = require('./userSchema');
 var getAllUsers = require('./getAllUsers');
+var addOrUpdateUser = require('./addOrUpdateUser');
+var removeUser = require('./deleteUser');
 
-
-
-
-
-/*con.once('open', ()=> {*/
-
-	/*var user = new users({
-		name: "Mani",
-		amount: "100"
-	});
-
-	user.save(function (err, user) {
-      if (err) return console.error(err);
-      console.log(user.amount + 'rs is Added to ' + user.name + ' :)');
-
-		con.db.collection("EnglishFine", function(err, collection){
-			collection.find({name: 'surya'}).toArray(function(err, data){
-			    console.log(data);
-			    con.close(); 
-			});
-		});
-
-    });*/
-		
-	getAllUsers();
 
 	
+addOrUpdateUser(new users({
+		name: "Vicky",
+		amount: "10"
+})).then(function (res) {
+		console.log(res.name + "Inserted Success Fully \n");
+});
+removeUser('Nancy').then(function (res) {
+	if(res) {
+		console.log("Deleted Success fully \n");
+	}
+});
+getAllUsers("EnglishFine").then(function(res){
+	console.log(res);
+});	
 
-/*});
-*/
+

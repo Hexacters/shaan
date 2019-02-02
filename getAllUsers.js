@@ -1,15 +1,17 @@
 "use strict";
 
 var con = require('./connection');
-function getAllUsers(collectionName){
+var users = require('./userSchema');
 
-	con.once('open', ()=> {	
-		con.db.collection(collectionName, function(err, collection){
-			collection.find().toArray(function(err, data){
-			    console.log(data); 
-			    con.close();
-			});
-		});
+function getAllUsers(collectionName) {
+	con.on('open', ()=> {});
+
+	return users.find({}, function(err, data) { 
+		if(err){
+			return null;
+		}
+		con.close();
+		return data;
 	});
 
 }
