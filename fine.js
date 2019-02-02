@@ -38,7 +38,7 @@ function Fine (bot) {
 			getAllUsers("EnglishFine", bot.users).then(function(res) {
 				var data = res;
 				var total = 0;
-				for (key in data) {
+				for (var key in data) {
 					total = total + data[key].amount; 
 				}
 				return bot.users ? "Total about for " + bot.users + " is " + total : "Total amount is :" + total;
