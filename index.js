@@ -2,7 +2,7 @@
 
 const express = require("express");
 const bodyParser = require("body-parser");
-const port = process.env.port || 8000;
+const port = process.env.PORT || 8000;
 const restService = express();
 
 var Fine = require('./fine');
