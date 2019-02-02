@@ -1,7 +1,7 @@
 {
-  "name": "webhook-echo-sample",
+  "name": "Shaan Bot",
   "version": "1.0.0",
-  "description": "Webhook echo sample",
+  "description": "Shaan Fine Bot",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
