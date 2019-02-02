@@ -1,9 +1,9 @@
 "use strict";
 
-var users = require('./userSchema');
-var getAllUsers = require('./getAllUsers');
-var addOrUpdateUser = require('./addOrUpdateUser');
-var removeUser = require('./deleteUser');
+var users = require('./CURD/userSchema');
+var getAllUsers = require('./CURD/getAllUsers');
+var addOrUpdateUser = require('./CURD/addOrUpdateUser');
+var removeUser = require('./CURD/deleteUser');
 var updateUserEntity = require('./updateEntity');
 
 
