@@ -4,6 +4,7 @@ var users = require('./userSchema');
 var getAllUsers = require('./getAllUsers');
 var addOrUpdateUser = require('./addOrUpdateUser');
 var removeUser = require('./deleteUser');
+var updateUserEntity = require('./updateEntity');
 
 
 	
@@ -22,4 +23,6 @@ getAllUsers("EnglishFine").then(function(res){
 	console.log(res);
 });	
 
-
+updateUserEntity("Venkat").then(function (response) {
+	console.log(response);
+});
