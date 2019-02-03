@@ -25,6 +25,7 @@ function addUserEntity(name) {
       for (let i = 0; i < users.entities.length; i++) {
         const entity = users.entities[i];
         if (entity.value == name) {
+        	console.log(name);
           throw new EntityNotFoundError();
         }
       }
