@@ -22,6 +22,12 @@ function addUserEntity(name) {
       throw new EntityNotFoundError();
     })
     .then((users) => {
+      for (let i = 0; i < users.entities.length; i++) {
+        const entity = users.entities[i];
+        if (entity.value == name) {
+          throw new EntityNotFoundError();
+        }
+      }
       var updatedEntityList = {value: name, synonyms: [name, name.toUpperCase(), name.toLowerCase()]}
       users.entities.push(updatedEntityList);
       const request = {
@@ -37,8 +43,7 @@ function addUserEntity(name) {
     })
     .catch((err) => {
       if (err instanceof EntityNotFoundError) {
-        console.error('Could not find the entity named city.');
-        return;
+        return name + 'was Already in my Database';
       }
       console.error('Error updating entity type:', err);
     });
