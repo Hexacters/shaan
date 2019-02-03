@@ -26,8 +26,8 @@ function Fine (bot) {
 		    }
 		  } else {
 		  	if (bot.Users) {
-		  		return updateUserEntity(bot.users).then(function (response) {
-					return bot.users + " Added Successfully :)"
+		  		return updateUserEntity(bot.Users).then(function (response) {
+					return bot.Users + " Added Successfully :)"
 				});
 		  	} else {
 		  		speech = "Please mention Their name :(";
