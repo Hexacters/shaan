@@ -6,15 +6,18 @@ var addOrUpdateUser = require('./CURD/addOrUpdateUser');
 var removeUser = require('./CURD/deleteUser');
 var updateUserEntity = require('./updateEntity');
 
+var con = require('./CURD/connection');
+
 function Fine (bot) {
 	var speech = '';
 	if (bot) {
 		if (bot.process == 'Add') {
 		  if (bot.amount) {
-		    if (bot.users.length) {
-		      for (var key in bot.users) {
+		    if (bot.Users.length) {
+		      console.log(bot.Users);
+		      for (var key in bot.Users) {
 		        return addOrUpdateUser(new users({
-		            name: bot.users[key],
+		            name: bot.Users[key],
 		            amount: bot.amount
 		        })).then(function (res) {
 		            speech = bot.users[0] + " Added Successfully";
@@ -27,7 +30,7 @@ function Fine (bot) {
 		  } else {
 		  	if (bot.Users) {
 		  		return updateUserEntity(bot.Users).then(function (response) {
-					return bot.Users + " Added Successfully :)"
+					return bot.Users + " Added Successfully :)";
 				});
 		  	} else {
 		  		speech = "Please mention Their name :(";
@@ -39,6 +42,7 @@ function Fine (bot) {
 				var data = res;
 				console.log(data);
 				var total = 0;
+				con.close();
 				for (var key in data) {
 					total = total + parseInt(data[key].amount); 
 				}
