@@ -17,7 +17,7 @@ function Fine (bot) {
 		            name: bot.users[key],
 		            amount: bot.amount
 		        })).then(function (res) {
-		            speech = bot.user[key] + "Added Successfully";
+		            speech = bot.users[0] + " Added Successfully";
 		            return speech;
 		        });
 		      }

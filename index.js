@@ -16,18 +16,15 @@ restService.use(
 restService.use(bodyParser.json());
 let defaultValues = ['hai', 'hi', 'time', 'date', 'hello', 'status']
 restService.post("/echo", function(req, res) {
-  //var speech = req.body.tr ? req.body.tr.toLowerCase() : "Seems like some problem. Speak again.";
+  var bot = req.body.tr ? req.body.tr : "Seems like some problem. Speak again.";
   //console.log(req.body.originalDetectIntentRequest.payload.data.user.name);
-  var bot =
+  /*var bot =
       req.body.queryResult &&
       req.body.queryResult.parameters 
         ? req.body.queryResult.parameters
-        : "Seems like some problem. Speak again.";
+        : "Seems like some problem. Speak again.";*/
 
   if (bot.process) {
-
-
-
     Fine(bot).then(function(speech){
       if (!speech) {
         speech = "Sorry! i can't Understand!.. :("
@@ -45,6 +42,8 @@ restService.post("/echo", function(req, res) {
           ],
           source:"Shaan The bot"
       });
+    }).catch(function (err) {
+      console.log(err);
     });
     
   } else {

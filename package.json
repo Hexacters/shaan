@@ -8,9 +8,9 @@
   },
   "author": "Venkat Narayanan",
   "dependencies": {
-    "body-parser": "^1.15.0",
-    "express": "^4.13.4",
-    "mongoose": "^5.4.9",
-    "dialogflow": "^0.8.0"
+    "body-parser": "^1.18.3",
+    "dialogflow": "^0.8.0",
+    "express": "^4.16.4",
+    "mongoose": "^5.4.9"
   }
 }
