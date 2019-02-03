@@ -25,10 +25,29 @@ restService.post("/echo", function(req, res) {
         : "Seems like some problem. Speak again.";
 
   if (bot.process) {
-    Fine(bot).then(function(speech){
-      if (!speech) {
-        speech = "Sorry! i can't Understand!.. :("
-      }
+    try {
+      Fine(bot).then(function(speech){
+        if (!speech) {
+          speech = "Sorry! i can't Understand!.. :("
+        }
+        return res.json({
+            fulfillmentText:speech,
+            fulfillmentMessages:[
+              {
+                text: {
+                    text: [
+                       speech
+                    ]
+                }
+              }
+            ],
+            source:"Shaan The bot"
+        });
+      }).catch(function (err) {
+        console.log(err);
+      });
+    } catch {
+      var speech = Fine(bot);
       return res.json({
           fulfillmentText:speech,
           fulfillmentMessages:[
@@ -42,9 +61,7 @@ restService.post("/echo", function(req, res) {
           ],
           source:"Shaan The bot"
       });
-    }).catch(function (err) {
-      console.log(err);
-    });
+    }
     
   } else {      
     var speech = "Sorry I can't Understand :("
