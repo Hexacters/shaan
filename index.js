@@ -46,59 +46,8 @@ restService.post("/echo", function(req, res) {
       console.log(err);
     });
     
-  } else {
-      defaultValues.map(s => {
-        if (speech.includes(s)) {
-          element = s;
-        }
-      });
-
-      switch (element) {
-      //Speech Synthesis Markup Language 
-      case "date":
-        var datetime = new Date();
-        speech =
-          '<speak>Today is ' + datetime.toISOString().slice(0,10) + '</speak>';
-        break;
-      case "time":
-          var date = new Date();
-          var year = date.getUTCFullYear();
-          var month = date.getUTCMonth();
-          var day = date.getUTCDate();
-          var hours = date.getUTCHours();
-          var min = date.getUTCMinutes();
-          var sec = date.getUTCSeconds();
-          var ampm = hours >= 12 ? 'PM' : 'AM';
-          hours = ((hours + 11) % 12 + 1);
-          var time = new Date().getTime();
-        speech =
-          '<speak>It is ' + hours + ':' + min + ' ' + ampm + ' now</speak>';
-        break;
-
-      case "hai":
-      case "hello":
-      case "haii":
-        speech =
-          'Haii ' + req.body.originalDetectIntentRequest.payload.data.user.name + '...! :)';
-        break;
-
-      case "about you":
-      case "status":
-        if (req.body.originalDetectIntentRequest.source) {
-        speech = 
-          'Haii ' + req.body.originalDetectIntentRequest.payload.data.user.name + '..! :) \n' +
-          'Now i am in ' + req.body.originalDetectIntentRequest.source + '\n' +
-          'We are Talking in ' + 'Persnal Chat';
-        } else {
-          speech = 'I am online Now';
-        }
-        break;
-      case "doing":
-        speech = 
-          'I am doing Well what About You';
-        break;
-      }
-
+  } else {      
+    var speech = "Sorry I can't Understand :("
       return res.json({
          fulfillmentText:speech,
          fulfillmentMessages:[
