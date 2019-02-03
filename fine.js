@@ -37,9 +37,10 @@ function Fine (bot) {
 		} else if (bot.process == 'Get') {
 			return getAllUsers("EnglishFine", bot.users).then(function(res) {
 				var data = res;
+				console.log(data);
 				var total = 0;
 				for (var key in data) {
-					total = total + data[key].amount; 
+					total = total + parseInt(data[key].amount); 
 				}
 				return bot.users ? "Total about for " + bot.users + " is " + total : "Total amount is :" + total;
 			});
