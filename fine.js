@@ -13,11 +13,11 @@ function Fine (bot) {
 	if (bot) {
 		if (bot.process == 'Add') {
 		  if (bot.amount) {
-		    if (bot.Users.length) {
-		      console.log(bot.Users);
-		      for (var key in bot.Users) {
+		    if (bot.users.length) {
+		    console.log(bot.users);
+		      for (var key in bot.users) {
 		        return addOrUpdateUser(new users({
-		            name: bot.Users[key],
+		            name: bot.users[key],
 		            amount: bot.amount
 		        })).then(function (res) {
 		            speech = bot.users[0] + " Added Successfully";
