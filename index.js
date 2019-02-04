@@ -4,7 +4,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const port = process.env.PORT || 8000;
 const restService = express();
-var con = require('./CURD/connection');
+var mongoose = require('mongoose');
 
 var Fine = require('./fine');
 
@@ -31,7 +31,7 @@ restService.post("/echo", function(req, res) {
         if (!speech) {
           speech = "Sorry! i can't Understand!.. :("
         }
-        con.on('open', ()=> {con.close();});
+        mongoose.connection.close();
         
         return res.json({
             fulfillmentText:speech,
@@ -65,24 +65,7 @@ restService.post("/echo", function(req, res) {
           source:"Shaan The bot"
       });
     }
-    
-  } else {      
-    var speech = "Sorry I can't Understand :("
-      return res.json({
-         fulfillmentText:speech,
-         fulfillmentMessages:[
-            {
-                text: {
-                    text: [
-                       speech
-                    ]
-                }
-            }
-        ],
-        source:"Hexa"
-      });
-  }
-
+}
   
 });
 
