@@ -17,13 +17,14 @@ restService.use(
 restService.use(bodyParser.json());
 let defaultValues = ['hai', 'hi', 'time', 'date', 'hello', 'status']
 restService.post("/echo", function(req, res) {
-  var bot = req.body.tr ? req.body.tr : "Seems like some problem. Speak again.";
+  //var bot = req.body.tr ? req.body.tr : "Seems like some problem. Speak again.";
   //console.log(req.body.originalDetectIntentRequest.payload.data.user.name);
-/*  var bot =
+  var bot =
       req.body.queryResult &&
       req.body.queryResult.parameters 
         ? req.body.queryResult.parameters
-        : "Seems like some problem. Speak again.";*/
+        : "Seems like some problem. Speak again.";
+        
       console.log(bot);
   if (bot.process) {
     try {
