@@ -9,21 +9,34 @@ var updateUserEntity = require('./updateEntity');
 var con = require('./CURD/connection');
 
 function Fine (bot) {
+	console.log(bot, "Fine");
 	var speech = '';
 	if (bot) {
 		if (bot.process == 'Add') {
 		  if (bot.amount) {
-		    if (bot.users.length) {
-		    console.log(bot.users);
-		      for (var key in bot.users) {
-		        return addOrUpdateUser(new users({
-		            name: bot.users[key],
-		            amount: bot.amount
-		        })).then(function (res) {
-		            speech = bot.users[0] + " Added Successfully";
-		            return speech;
-		        });
-		      }
+		    if (bot.Users) {
+		    	var totla = 0;
+			    if (bot.Users) {
+			  		return getAllUsers("EnglishFine", bot.Users).then(function(res) {
+						var data = res;
+						console.log(data);
+						var total = 0;
+						for (var key in data) {
+							total = total + parseInt(data[key].amount); 
+						}
+
+						var amount = parseInt(bot.amount) + total; 
+						return addOrUpdateUser(new users({
+						    name: bot.Users,
+						    amount: amount
+						})).then(function (res) {
+						    speech = bot.amount + 'rs was removed to ' + bot.Users + '\n Your Balance is: ' + amount;
+						    return speech;
+						});
+					});
+			  	}
+
+
 		    } else {
 		    	return "Please mention Their name :(";
 		    }
@@ -38,11 +51,11 @@ function Fine (bot) {
 		  	}
 		  }
 		} else if (bot.process == 'Get') {
-			return getAllUsers("EnglishFine", bot.users).then(function(res) {
+			console.log(bot, "Get");
+			return getAllUsers("EnglishFine", bot.Users).then(function(res) {
 				var data = res;
 				console.log(data);
 				var total = 0;
-				con.close();
 				for (var key in data) {
 					total = total + parseInt(data[key].amount); 
 				}
@@ -50,11 +63,36 @@ function Fine (bot) {
 			});
 				
 		} else if (bot.process == 'Remove') {
-			return removeUser(bot.users).then(function (res) {
-				if(res) {
-					return bot.users + "Deleted Success fully \n";
-				}
-			});
+			var totla = 0;
+		    if (bot.amount) {
+		  		return getAllUsers("EnglishFine", bot.Users).then(function(res) {
+					var data = res;
+					console.log(data);
+					var total = 0;
+					for (var key in data) {
+						total = total + parseInt(data[key].amount); 
+					}
+
+					var amount = total - parseInt(bot.amount); 
+					console.log(amount);
+					return addOrUpdateUser(new users({
+					    name: bot.Users,
+					    amount: amount
+					})).then(function (res) {
+					    speech = bot.amount + 'rs was removed to ' + bot.Users + '\n Your Balance is: ' + amount;
+					    return speech;
+					});
+				});
+		  	} else if (bot.Users) {
+				return removeUser(bot.Users).then(function (res) {
+					if(res) {
+						return bot.Users + " Deleted Success fully \n";
+					}
+				});
+			} else {
+				speech = "Please mention Their name :(";
+		    	return speech;
+			}
 		} else {
 			return "Sorry I don't Understand ;(";
 		}

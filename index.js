@@ -24,14 +24,14 @@ restService.post("/echo", function(req, res) {
       req.body.queryResult.parameters 
         ? req.body.queryResult.parameters
         : "Seems like some problem. Speak again.";*/
-
+      console.log(bot);
   if (bot.process) {
     try {
+      console.log(bot);
       Fine(bot).then(function(speech){
         if (!speech) {
           speech = "Sorry! i can't Understand!.. :("
         }
-        mongoose.connection.close();
         
         return res.json({
             fulfillmentText:speech,
@@ -49,8 +49,8 @@ restService.post("/echo", function(req, res) {
       }).catch(function (err) {
         console.log(err);
       });
-    } catch {
-      var speech = Fine(bot);
+    } catch(err) {
+       var speech = Fine(bot);
       return res.json({
           fulfillmentText:speech,
           fulfillmentMessages:[
@@ -65,6 +65,21 @@ restService.post("/echo", function(req, res) {
           source:"Shaan The bot"
       });
     }
+} else {
+  var speech = "Sorry! i can't Understand!.. :(";
+   return res.json({
+          fulfillmentText:speech,
+          fulfillmentMessages:[
+            {
+              text: {
+                  text: [
+                     speech
+                  ]
+              }
+            }
+          ],
+          source:"Shaan The bot"
+      });
 }
   
 });

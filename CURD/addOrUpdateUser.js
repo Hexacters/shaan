@@ -21,7 +21,6 @@ function addUser(user) {
 	        } else {
 	          return doc.name +' Was Updated Successfully \n';
 	        }
-	        con.close();
 	    }
 	);
 
