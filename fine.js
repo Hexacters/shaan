@@ -103,9 +103,9 @@ function Fine (bot) {
 				var total = 0;
 				for (var key in data) {
 					total = total + parseInt(data[key].amount);
-					result = result + data[key].name + " - " + data[key].amount + 'rs\n';
+					result = result + '\n' + data[key].name + " - " + data[key].amount + 'rs';
 				}
-				return result + "\nTotal amount is :" + total;
+				return result + "\nTotal amount is : " + total;
 			});
 		} else {
 			return "Sorry I don't Understand ;(";
