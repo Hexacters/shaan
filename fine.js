@@ -105,7 +105,7 @@ function Fine (bot) {
 					total = total + parseInt(data[key].amount);
 					result = result + '\n' + data[key].name + " - " + data[key].amount + 'rs';
 				}
-				return result + "\nTotal amount is : " + total;
+				return result + "\n----------------\nTotal amount is : " + total;
 			});
 		} else {
 			return "Sorry I don't Understand ;(";
