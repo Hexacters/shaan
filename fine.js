@@ -93,6 +93,20 @@ function Fine (bot) {
 				speech = "Please mention Their name :(";
 		    	return speech;
 			}
+		} else if (bot.process == 'List') {
+			var totla = 0;
+			var result = '';
+		    console.log(bot, "Get");
+			return getAllUsers("EnglishFine", bot.Users).then(function(res) {
+				var data = res;
+				console.log(data);
+				var total = 0;
+				for (var key in data) {
+					total = total + parseInt(data[key].amount);
+					result = result + data[key].name + " - " + data[key].amount + 'rs\n';
+				}
+				return result + "\nTotal amount is :" + total;
+			});
 		} else {
 			return "Sorry I don't Understand ;(";
 		}
