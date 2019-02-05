@@ -30,7 +30,7 @@ function Fine (bot) {
 						    name: bot.Users,
 						    amount: amount
 						})).then(function (res) {
-						    speech = bot.amount + 'rs was removed to ' + bot.Users + '\n Your Balance is: ' + amount;
+						    speech = bot.amount + 'rs was Added to ' + bot.Users + '\n Your Balance is: ' + amount;
 						    return speech;
 						});
 					});
